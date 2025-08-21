@@ -12,7 +12,7 @@ spring:
 #  data:
 #    redis:
 #      host: 192.168.31.222
-#logging:
-#  level:
-#    org.springframework.ai: debug
-#    com.itheima.ai: debug
+logging:
+  level:
+    org.springframework.ai: debug
+    cn.itcast.demo.linyingxiongai2: debug
