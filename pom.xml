@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.itcast.demo</groupId>
-    <artifactId>linyingxiong-ai2</artifactId>
+    <artifactId>Spring-ai-Demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>linyingxiong-ai2</name>
-    <description>linyingxiong-ai2</description>
+    <name>spring-ai-demo</name>
+    <description>spring-ai-demo</description>
     <url/>
     <licenses>
         <license/>

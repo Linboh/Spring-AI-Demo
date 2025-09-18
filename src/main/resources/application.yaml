@@ -1,14 +1,14 @@
 server:
-  port: 8083
+  port: 8080
 
 spring:
   application:
-    name: heima-ai
+    name: Spring-ai-Demo
   ai:
     ollama:
       base-url: http://localhost:11434
       chat:
-        model: deepseek-r1:1.5b
+        model: deepseek-r1:7b
 #  data:
 #    redis:
 #      host: 192.168.31.222
