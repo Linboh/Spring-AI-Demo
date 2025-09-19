@@ -19,14 +19,14 @@ public class CustomerServiceController {
     private final ChatHistoryRepository chatHistoryRepository;
 
     @RequestMapping(value = "/service", produces = "text/html;charset=utf-8")
-    public String service(String prompt, String chatId) {
+    public Flux<String> service(String prompt, String chatId) {
         // 1.保存会话id
         chatHistoryRepository.save("service", chatId);
         // 2.请求模型
         return serviceChatClient.prompt()
                 .user(prompt)
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
-                .call()
+                .stream()
                 .content();
     }
 }
