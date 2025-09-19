@@ -2,6 +2,7 @@ package cn.itcast.demo.linyingxiongai2.config;
 
 
 import cn.itcast.demo.linyingxiongai2.constants.SystemConstants;
+import cn.itcast.demo.linyingxiongai2.tools.CourseTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -12,6 +13,8 @@ import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static cn.itcast.demo.linyingxiongai2.constants.SystemConstants.CUSTOMER_SERVICE_SYSTEM;
+
 @Configuration
 public class CommonConfiguration {
 
@@ -21,7 +24,7 @@ public class CommonConfiguration {
     }
 
     /**
-     * 智能聊天机器人
+     * 智能聊天机器人客户端
      * @param model
      * @param chatMemory
      * @return
@@ -39,7 +42,7 @@ public class CommonConfiguration {
     }
 
     /**
-     * 哄哄模拟器
+     * 哄哄模拟器客户端
      * @param model
      * @param chatMemory
      * @return
@@ -53,6 +56,27 @@ public class CommonConfiguration {
                         new SimpleLoggerAdvisor(),
                         new MessageChatMemoryAdvisor(chatMemory)
                 )
+                .build();
+    }
+
+    /**
+     * 智能客服客户端
+     * @param model
+     * @param chatMemory
+     * @param courseTools
+     * @return
+     */
+    @Bean
+    public ChatClient serviceChatClient(
+            OpenAiChatModel model,
+            ChatMemory chatMemory,
+            CourseTools courseTools) {
+        return ChatClient.builder(model)
+                .defaultSystem(CUSTOMER_SERVICE_SYSTEM)
+                .defaultAdvisors(
+                        new MessageChatMemoryAdvisor(chatMemory), // CHAT MEMORY
+                        new SimpleLoggerAdvisor())
+                .defaultTools(courseTools)
                 .build();
     }
 }
