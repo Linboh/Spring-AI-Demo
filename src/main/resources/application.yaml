@@ -9,6 +9,13 @@ spring:
       base-url: http://localhost:11434
       chat:
         model: deepseek-r1:7b
+
+    openai:
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: qwen-max-latest # 可选择的模型列表 https://help.aliyun.com/zh/model-
 #  data:
 #    redis:
 #      host: 192.168.31.222
