@@ -16,6 +16,11 @@ spring:
       chat:
         options:
           model: qwen-max-latest # 可选择的模型列表 https://help.aliyun.com/zh/model-
+      #向量模型
+      embedding:
+        options:
+          model: text-embedding-v3
+          dimensions: 1024
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
