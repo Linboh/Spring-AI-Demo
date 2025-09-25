@@ -9,6 +9,7 @@ import org.springframework.ai.autoconfigure.openai.OpenAiChatProperties;
 import org.springframework.ai.autoconfigure.openai.OpenAiConnectionProperties;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
@@ -19,6 +20,7 @@ import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.ObjectProvider;
@@ -78,6 +80,34 @@ public class CommonConfiguration {
                 .defaultAdvisors(
                         new SimpleLoggerAdvisor(),
                         new MessageChatMemoryAdvisor(chatMemory)
+                )
+                .build();
+    }
+
+    /**
+     * ChatPDF
+     * @param model
+     * @param chatMemory
+     * @param vectorStore
+     * @return
+     */
+    @Bean
+    public ChatClient pdfChatClient(
+            OpenAiChatModel model,
+            ChatMemory chatMemory,
+            VectorStore vectorStore) {
+        return ChatClient.builder(model)
+                .defaultSystem("请根据提供的上下文回答问题，不要自己猜测。")
+                .defaultAdvisors(
+                        new MessageChatMemoryAdvisor(chatMemory), // CHAT MEMORY
+                        new SimpleLoggerAdvisor(),
+                        new QuestionAnswerAdvisor(
+                                vectorStore, // 向量库
+                                SearchRequest.builder() // 向量检索的请求参数
+                                        .similarityThreshold(0.5d) // 相似度阈值
+                                        .topK(2) // 返回的文档片段数量
+                                        .build()
+                        )
                 )
                 .build();
     }
