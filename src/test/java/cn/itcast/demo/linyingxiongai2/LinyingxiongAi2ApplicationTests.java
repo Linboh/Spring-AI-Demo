@@ -99,4 +99,47 @@ class LinyingxiongAi2ApplicationTests {
         }
     }
 
+    @Test
+    void stringTest() throws InterruptedException {
+        String s = "Hello";
+
+        Thread t1 = new Thread(() -> {
+            String r1 = s + " A";
+        });
+
+        Thread t2 = new Thread(() -> {
+            String r2 = s + " B";
+        });
+
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
+
+        System.out.println(s);
+
+    }
+
+    @Test
+    void stringTest2() throws InterruptedException {
+        StringBuilder sb = new StringBuilder("Hello");
+
+        Thread t1 = new Thread(() -> {
+            sb.append(" A");
+        });
+
+        Thread t2 = new Thread(() -> {
+            sb.append(" B");
+        });
+
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
+
+        System.out.println(sb);
+
+
+    }
+
 }
